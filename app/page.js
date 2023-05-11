@@ -75,7 +75,6 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <SearchBar />
       <FilterableMessagesTable messages={blogMessages} />
     </main>
   );
