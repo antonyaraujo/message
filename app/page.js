@@ -5,14 +5,6 @@ import styles from "./page.module.css";
 import React from "react";
 import { useState } from "react";
 
-function MessageCategoryRow({ category }) {
-  return (
-    <tr>
-      <th colSpan="2">{category}</th>
-    </tr>
-  );
-}
-
 function MessageRow({ message }) {
   return (
     <tr>
@@ -23,12 +15,7 @@ function MessageRow({ message }) {
   );
 }
 
-function SearchBar({
-  filterText,
-  inStockOnly,
-  onFilterTextChange,
-  onInStockOnlyChange,
-}) {
+function SearchBar({ filterText, onFilterTextChange }) {
   return (
     <form>
       <input
@@ -37,38 +24,17 @@ function SearchBar({
         placeholder="Search..."
         onChange={(e) => onFilterTextChange(e.target.value)}
       />
-      <label>
-        <input
-          type="checkbox"
-          value={inStockOnly}
-          onChange={(e) => onInStockOnlyChange(e.target.checked)}
-        />{" "}
-        Only show messages in stock
-      </label>
     </form>
   );
 }
 
 function MessageTable({ messages, filterText }) {
   const rows = [];
-  let lastCategory = null;
   messages.forEach((message) => {
-    if (message.name.toLowerCase().indexOf(filterText.toLowerCase()) === -1) {
+    if (messages.toLowerCase().includes(filterText.toLowerCase()) === -1) {
       return;
     }
-    if (inStockOnly && !message.stocked) {
-      return;
-    }
-    if (message.category !== lastCategory) {
-      rows.push(
-        <MessageCategoryRow
-          category={message.category}
-          key={message.category}
-        />
-      );
-    }
-    rows.push(<MessageRow message={message} key={message.name} />);
-    lastCategory = message.category;
+    rows.push(<MessageRow message={message} key={message.message} />);
   });
 
   return (
@@ -76,7 +42,7 @@ function MessageTable({ messages, filterText }) {
       <thead>
         <tr>
           <th>Author</th>
-          <th>Message</th>
+          <th>Messages</th>
           <th>Date</th>
         </tr>
       </thead>
@@ -87,19 +53,11 @@ function MessageTable({ messages, filterText }) {
 
 function FilterableMessagesTable({ messages }) {
   const [filterText, setFilterText] = useState("");
+
   return (
     <div>
-      <SearchBar
-        filterText={filterText}
-        inStockOnly={inStockOnly}
-        onFilterTextChange={setFilterText}
-        onInStockOnlyChange={setInStockOnly}
-      />
-      <MessageTable
-        messages={messages}
-        filterText={filterText}
-        inStockOnly={inStockOnly}
-      />
+      <SearchBar filterText={filterText} onFilterTextChange={setFilterText} />
+      <MessageTable messages={messages} filterText={filterText} />
     </div>
   );
 }
