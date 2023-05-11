@@ -31,7 +31,7 @@ function SearchBar({ filterText, onFilterTextChange }) {
 function MessageTable({ messages, filterText }) {
   const rows = [];
   messages.forEach((message) => {
-    if (messages.toLowerCase().includes(filterText.toLowerCase()) === -1) {
+    if (messages.includes(filterText)) {
       return;
     }
     rows.push(<MessageRow message={message} key={message.message} />);
