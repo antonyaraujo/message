@@ -75,7 +75,7 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <FilterableMessageTable messages={blogMessages} />
+      <FilterableMessagesTable messages={blogMessages} />
     </main>
   );
 }
