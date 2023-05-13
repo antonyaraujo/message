@@ -8,9 +8,9 @@ import { useState } from "react";
 function MessageRow({ message }) {
   return (
     <tr>
-      <td>{message.author}</td>
-      <td>{message.message}</td>
-      <td>{message.date}</td>
+      <td>{message[0].author}</td>
+      <td>{message[0].message}</td>
+      <td>{message[0].date}</td>
     </tr>
   );
 }
