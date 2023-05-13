@@ -7,10 +7,10 @@ import { useState } from "react";
 
 function MessageRow({ message }) {
   return (
-    <tr>
-      <td>{message[0].author}</td>
-      <td>{message[0].message}</td>
-      <td>{message[0].date}</td>
+    <tr key={message[0]}>
+      <td>{message[0]}</td>
+      <td>{message[1]}</td>
+      <td>{message[2]}</td>
     </tr>
   );
 }
@@ -31,10 +31,11 @@ function SearchBar({ filterText, onFilterTextChange }) {
 function MessageTable({ messages, filterText }) {
   const rows = [];
   messages.forEach((message) => {
-    if (messages.includes(filterText)) {
+    let verify_message = string(message[0]);
+    if (verify_message.includes(filterText)) {
       return;
     }
-    rows.push(<MessageRow message={message} key={message.message} />);
+    rows.push(<MessageRow message={message} key={message[0]} />);
   });
 
   return (
