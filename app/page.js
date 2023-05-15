@@ -28,22 +28,16 @@ function SearchBar({ filterText, onFilterTextChange }) {
   );
 }
 
-function MessageTable({ messages, filterText, rowsMessages }) {
-  useEffect(() => {
-    const rows = [];
-    messages.map((message) => {
-      let verify_message = String(message[0]);
-      if (
-        verify_message.toLowerCase().includes(filterText.toLowerCase()) ||
-        filterText === ""
-      ) {
-        rows.push(
-          <MessageRow message={message} key={message[1] + message[2]} />
-        );
-      }
-    });
-    rowsMessages[1](rows);
-  }, [filterText, messages]);
+function MessageTable({ messages, filterText }) {
+  const rows = [];
+  messages.forEach((message) => {
+    print(message)
+    let verify_message = String(message[0]);    
+    if (verify_message.toLowerCase().indexOf(filterText.toLowerCase()) >= 0) {
+      return;
+    }
+    rows.push(<MessageRow message={message} key={message[1] + message[2]} />);
+  });
 
   return (
     <table>
@@ -54,7 +48,7 @@ function MessageTable({ messages, filterText, rowsMessages }) {
           <th>Date</th>
         </tr>
       </thead>
-      <tbody>{rowsMessages[0]}</tbody>
+      <tbody>{rows}</tbody>
     </table>
   );
 }
@@ -75,8 +69,7 @@ function FilterableMessagesTable({ messages, rowsMessages }) {
 }
 
 export default function Home() {
-  const [blogMessages, setBlogMessages] = useState([]);
-  const [rowsMessages, setRowsMessages] = useState([]);
+  const [blogMessages, setBlogMessages] = useState([]);  
   fetch(
     "https://script.google.com/macros/s/AKfycbzBn3sALe1rYjz7Ze-Ik7q9TEVP0I2V3XX7GNcecWP8NvCzGt4yO_RT1OlQp09TE9cU/exec"
   )
@@ -87,8 +80,7 @@ export default function Home() {
   return (
     <main className={styles.main}>
       <FilterableMessagesTable
-        messages={blogMessages}
-        rowsMessages={[rowsMessages, setRowsMessages]}
+        messages={blogMessages}        
       />
     </main>
   );
